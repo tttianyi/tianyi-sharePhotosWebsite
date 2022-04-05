@@ -1,0 +1,39 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tianyi System</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+    <header>
+        <a id="logo" href="http://localhost:8000"><div id="logo-img"></div></a>
+        <nav class="navbar">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:8000/logout">Log out</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:8000/upload">Upload</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:8000/profile">Me</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:8000">Home</a>
+                </li>
+            </ul>
+        </nav>
+        <hr id="headercut">
+    </header>
+
+    <section>
+        <h1>Image Successfully Uploaded!</h1> 
+        <p>Here is the image!</p>
+        <img class="poster" src="/uploads/<%= filename %>">
+    </section>
+
+</body>
+
+</html>

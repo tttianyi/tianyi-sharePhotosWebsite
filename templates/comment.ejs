@@ -1,0 +1,89 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tianyi System</title>
+    <base href="/">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+    <header>
+        <a id="logo" href="http://localhost:8000"><div id="logo-img"></div></a>
+        <nav class="navbar">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:8000/logout">Log out</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:8000/upload">Upload</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:8000/profile">Me</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:8000">Home</a>
+                </li>
+            </ul>
+        </nav>
+        <hr id="headercut">
+    </header>
+
+    <section>
+        <h1>Comments.</h1> 
+        <p>We are the kindred here.</p>
+    </section>
+
+    <ul class= "gallery">
+        <li class= "item">
+            <p class="imgUploader"> Author: <%= images[0].imgUploader %> </p>
+            <img class="individual_show" alt="<%= images[0].imgName %>" src="<%= images[0].imgUrl %>"> </img>
+            <p class="like"> Like: <%= images[0].imgLikes %> </p>
+         </li>
+        <% for(const comment in imageComments) { %>
+            <% if (imageComments[comment].imgCommentUsername == images[0].currentUser) { %>
+            <li class= "item">
+                <p class="imgCommentUsername">  <%= images[0].currentUser %> </p>
+                <p class="imgCommentsContent" >  <%= imageComments[comment].imgCommentsContent %> </p>
+                <p class="imgCommentsDate"> <%= imageComments[comment].imgCommentsDate %> </p>
+                <form action="/<%= images[0].imgId %>/comments/delete" method="post">
+                    <div><input type="hidden" value="<%= images[0].imgId %>" name="idd">
+                        <input type="hidden" value="<%= comment %>" name="delete">
+                        <input type="submit" value="Delete">
+                    </div>
+                </form>
+            </li>
+            <% } else if (imageComments[comment].imgCommentUsername != images[0].currentUser) { %> 
+            <li class= "item">
+                <p class="imgCommentUsername">  <%= imageComments[comment].imgCommentUsername %> </p>
+                <p class="imgCommentsContent">  <%= imageComments[comment].imgCommentsContent %> </p>
+                <p class="imgCommentsDate"> <%= imageComments[comment].imgCommentsDate %> </p>
+            </li>
+            <% } %>
+        <% } %>
+        <li class= "item">
+            <form action="/<%= images[0].imgId %>/comments" method="post">
+                <div>Comment: <input type="text" class="post-comment" name="content" placeholder="Saysomething.."></div>
+                <br>
+                <div> <input type="submit" value="Submit"></div>
+            </form>
+        </li>
+        </ul>
+
+        <script type="text/javascript">
+            function insertComment(){
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function(){
+                    //TODO: display the new one
+                    var result = this.responseText;
+                    console.log("result is"+result);
+                }
+                var commentContent = document.getElementsByClassName('post-comment' ).value ; 
+                xhttp.open("POST", url, true);
+                xhttp.setRequestHeader("Content-type", "application/json");
+                xhttp.send('{"commentContent": "'+commentContent+'"}');
+            }
+        </script>
+</body>
+
+</html>

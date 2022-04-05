@@ -1,0 +1,76 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tianyi System</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+    <header>
+        <a id="logo" href="http://localhost:8000">
+            <div id="logo-img"></div>
+        </a>
+        <nav class="navbar">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:8000/<%= link2 %>">
+                        <%= signup %>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:8000/<%= link %>">
+                        <%= username %>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:8000">Home</a>
+                </li>
+            </ul>
+        </nav>
+        <hr id="headercut">
+    </header>
+
+    <section>
+        <ul class="gallery">
+            <% for(const image in images) { %>
+                <li class="item">
+                    <p id="author"> Author: <%= images[image].imgUserName %></p>
+                    <img class="individual_show" alt="<%= images[image].imgName %>" src="<%= images[image].imgUrl %>"></img>
+                    <p class="imgDate"> Date: <%= images[image].imgDate %></p>
+                    <input type="button" id="likeButton" onclick="submitLike(this, '<%= images[image].imgId %>')"
+                        value="Like: <%= images[image].imgLikes %>">
+                    <a class="toComment" href="http://localhost:8000/<%= images[image].imgId %>/comments">Comments</a>
+                </li>
+                <% } %>
+        </ul>
+    </section>
+
+    <script>
+        function submitLike(target, id) {
+            const data = { id };
+            const options = {
+                method: 'POST',
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: `id=${id}`,
+            }
+
+            fetch('http://localhost:8000/', options)
+                .then(resp => {
+                    if (resp.ok) {
+                        return resp.json()
+                    } else {
+                        throw new Error(`fetch() returned an error: ${resp.statusText}(${resp.status})`)
+                    }
+                })
+                .then(({ likes }) => {
+                    target.value = `Like: ${likes}`
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                })
+        }
+    </script>
+</body>
+
+</html>
